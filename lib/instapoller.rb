@@ -1,35 +1,26 @@
-require "sinatra"
 require "instagram"
+require "net/http"
 
-enable :sessions
-
-CALLBACK_URL = "http://localhost:4567/oauth/callback"
-
-Instagram.configure do |config|
-    config.client_id = "YOUR_CLIENT_ID"
-    config.client_secret = "YOUR_CLIENT_SECRET"
-end
-
-get "/" do
-    '<a href="/oauth/connect">Connect with Instagram</a>'
-end
-
-get "/oauth/connect" do
-    redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
-end
-
-get "/oauth/callback" do
-    response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
-    session[:access_token] = response.access_token
-    redirect "/feed"
-end
-
-get "/feed" do
-    client = Instagram.client(:access_token => session[:access_token])
-    user = client.user
-    html = "<h1>#{user.username}'s recent photos</h1>"
-    for media_item in client.user_recent_media
-        html << "<img src='#{media_item.images.thumbnail.url}'>"
+module InstaPoller
+    def self.connect
+        CALLBACK_URL = http://localhost:3000/callback
+       
+        api_config = Rails.root.join 'config', 'api.yml'
+        yml = YAML.load_file(api_config)
+    
+        Instagram.configure do |config|
+            config.client_id = yml['client_id']
+            config.client_secret = yml['client_secret']
+        end
+    
+        redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
     end
-    html
+
+    def self.get_feed(user)
+        client = Instagram.client(:access_token => session[:access_token]
+        @user = client.user
+        @recent_media_items = client.user_recent_media
+    end
+
 end
+
