@@ -7,5 +7,5 @@ Instagram.configure do |config|
     config.client_secret = api['client_secret']
 end
 
-CALLBACK_URL = "http://localhost:3000/session/callback"
+CALLBACK_URL = "http://instagralbum.heroku.com/session/callback"
 
