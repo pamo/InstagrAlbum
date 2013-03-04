@@ -24,7 +24,7 @@ class AlbumsController < ApplicationController
     
     @album = Album.find(params[:id])
     @photos = client.user_recent_media(pmocampo)
-    @photos.select {|p| p.tags.include?(@album.tag)}
+    @photos = @photos.select {|p| p.tags.include?(@album.tag)}
     
     respond_to do |format|
       format.html # show.html.erb
