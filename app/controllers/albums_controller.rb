@@ -1,4 +1,3 @@
-require 'instagram'
 class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
@@ -19,8 +18,9 @@ class AlbumsController < ApplicationController
     end
 
     pmocampo = "30792403"
-    @user = client.user(pmocampo)
     client = Instagram.client(:access_token => session[:access_token])
+    
+    @user = client.user(pmocampo)
     
     @album = Album.find(params[:id])
     @photos = client.user_recent_media(pmocampo)
