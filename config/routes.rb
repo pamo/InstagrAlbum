@@ -1,4 +1,6 @@
 Instagralbum::Application.routes.draw do
+  resources :albums
+
     get 'album/index'
     match 'session/:action', :to => 'sessions'
   # The priority is based upon order of creation:
