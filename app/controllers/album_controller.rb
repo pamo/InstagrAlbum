@@ -1,4 +1,3 @@
-
 class AlbumController < ApplicationController
 
     def index
