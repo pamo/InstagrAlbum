@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   before_filer :authorize, only: [edit, create, update]
-  before_filer :get_session, only: [index, show]
+  #before_filer :get_session, only: [index, show]
   def get_session
     if !session[:access_token]
         redirect_to :controller => 'sessions', :action => 'connect'
