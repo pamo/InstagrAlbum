@@ -2,13 +2,6 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   def index
-    if !session[:access_token]
-        redirect_to :controller => 'sessions', :action => 'connect'
-    end
-
-    pmocampo = "30792403"
-    client = Instagram.client(:access_token => session[:access_token])
-    @user = client.user(pmocampo)
     @albums = Album.all
 
     respond_to do |format|
@@ -20,8 +13,18 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.json
   def show
-    @album = Album.find(params[:id])
+    if !session[:access_token]
+        redirect_to :controller => 'sessions', :action => 'connect'
+    end
 
+    pmocampo = "30792403"
+    @user = client.user(pmocampo)
+    client = Instagram.client(:access_token => session[:access_token])
+    
+    @album = Album.find(params[:id])
+    @photos = client.user_recent_media(pmocampo)
+    @photos.select {|p| p.tags.include?(@album.tag)}
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @album }
