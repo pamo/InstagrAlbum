@@ -5,7 +5,7 @@
   <%= @album.tag %>
 </p>
 <% @photos.each do |p| %>
-    <img src="<%= p.images.thumbnail.url %>"> <br />
+    <p><%= p.tags %></p> <img src="<%= p.images.thumbnail.url %>"> 
 <% end %>
 
 <%= link_to 'Edit', edit_album_path(@album) %> |
