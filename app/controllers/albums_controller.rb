@@ -1,4 +1,21 @@
 class AlbumsController < ApplicationController
+  before_filer :authorize, only: [edit, create, update]
+  before_filer :get_session, only: [index, show]
+  def get_session
+    if !session[:access_token]
+        redirect_to :controller => 'sessions', :action => 'connect'
+    end
+
+    pmocampo = "30792403"
+    client = Instagram.client(:access_token => session[:access_token])
+    
+    @user = client.user(pmocampo)
+  end
+  
+  def authorize
+    redirect_to root, notice: "You are not #{@user.username}." unless client.user.id == @user.id
+  end
+
   # GET /albums
   # GET /albums.json
   def index
