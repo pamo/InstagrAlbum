@@ -2,6 +2,13 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   def index
+    if !session[:access_token]
+        redirect_to :controller => 'sessions', :action => 'connect'
+    end
+
+    pmocampo = "30792403"
+    client = Instagram.client(:access_token => session[:access_token])
+    @user = client.user(pmocampo)
     @albums = Album.all
 
     respond_to do |format|
