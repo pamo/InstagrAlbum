@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  before_filer :authorize, only: [edit, create, update]
+  #before_filer :authorize, only: [edit, create, update]
   #before_filer :get_session, only: [index, show]
   def get_session
     if !session[:access_token]
@@ -12,9 +12,6 @@ class AlbumsController < ApplicationController
     @user = client.user(pmocampo)
   end
   
-  def authorize
-    redirect_to root, notice: "You are not #{@user.username}." unless client.user.id == @user.id
-  end
 
   # GET /albums
   # GET /albums.json
@@ -107,5 +104,9 @@ class AlbumsController < ApplicationController
       format.html { redirect_to albums_url }
       format.json { head :no_content }
     end
+  end
+private
+  def authorize
+    redirect_to(root_path) unless client.user.id == @user.id
   end
 end
